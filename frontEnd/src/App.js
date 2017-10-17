@@ -1,21 +1,56 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter, Route} from 'react-router-dom'
 
-class App extends Component {
+class App extends Component{
+  render(){
+    return(
+    <div>
+        <BrowserRouter>
+            <div>
+                    <Route path="/"       component={Home}/>
+                    <Route path="/hello1"  component={HelloWorld}/>
+                    <Route path="/hello2"  component={HelloWorld2}/>
+            </div>
+        </BrowserRouter>
+    </div>
+    )
+  }
+}
+
+class Home extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/hello1">First</a></li>
+          <li><a href="/hello2">Second</a></li>
+        </ul>
+        <h1> Welcome to ArchiveMyDoc </h1>
       </div>
     );
   }
 }
+
+class HelloWorld extends Component{
+  render(){
+    return(
+      <div>
+        <h1> Welcome Again </h1>
+      </div>
+    )
+  }
+}
+
+class HelloWorld2 extends Component{
+  render(){
+    return(
+      <div>
+        <h1> Welcome Another Time </h1>
+      </div>
+    )
+  }
+}
+
 
 export default App;
