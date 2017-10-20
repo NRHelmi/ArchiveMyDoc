@@ -14,5 +14,9 @@ public class Document{
 		this.title = title;
 		this.type  = type;
 	}
-		
+	
+	@Override
+	public String toString(){
+		return String.format("{'title': %s, 'type': %s}", title, type);
+	}
 }
