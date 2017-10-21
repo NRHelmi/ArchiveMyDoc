@@ -9,7 +9,7 @@ class App extends Component{
         <BrowserRouter>
             <div>
                     <Route path="/"        component={Home}/>
-                    <Route path="/hello1"  component={HelloWorld}/>
+                    <Route path="/Upload"  component={Uploader}/>
                     <Route path="/hello2"  component={HelloWorld2}/>
                     <Route path="/restTest"component={RestCall}/>
             </div>
@@ -25,7 +25,7 @@ class Home extends Component {
       <div>
         <ul>
           <li><a href="/">Home</a></li>
-          <li><a href="/hello1">First</a></li>
+          <li><a href="/Upload">Upload</a></li>
           <li><a href="/hello2">Second</a></li>
           <li><a href="/restTest">RestTest</a></li>
         </ul>
@@ -35,11 +35,15 @@ class Home extends Component {
   }
 }
 
-class HelloWorld extends Component{
+class Uploader extends Component{
   render(){
     return(
       <div>
-        <h1> Welcome Again </h1>
+        <form action="http://localhost:8080/uploadFile" method="POST" enctype="multipart/form-data">
+          Select File to upload:
+          <input type="file" name="file"/>
+          <input type="submit" value="Upload File" name="submit"/>
+        </form>
       </div>
     )
   }

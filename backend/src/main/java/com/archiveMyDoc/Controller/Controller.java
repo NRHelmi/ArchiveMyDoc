@@ -1,13 +1,14 @@
 package com.archiveMyDoc.Controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,30 +25,31 @@ public class Controller{
 	private DocumentRepository documentRepo;
 	
 	@Autowired
-	private GridFsOperations gridOperation;
+	private GridFsOperations gridFsOperation;
 	
-	@RequestMapping("/")
+	@GetMapping("/")
 	public String HelloWorld() {
 		return "Hello World !!";
 	}
 	
-	@RequestMapping("/getAllDocuments")
+	@GetMapping("/getAllDocuments")
 	public List<Document> getAllDocuments(){
 		return documentRepo.findAll();
 	}
 	
-	@RequestMapping(value="/insertDocument", method=RequestMethod.POST)
+	@PostMapping("/insertDocument")
 	public String SaveDocument(@RequestBody Document document){
 		System.out.println(document.id);
 		documentRepo.save(document);
 		return "{response: 200}";
 	}
 	
-	@RequestMapping(value="/uploadFile", method=RequestMethod.POST)
+	@PostMapping(value="/uploadFile")
 	public String SaveFile(@RequestParam(value="file", required=true) MultipartFile file,
-										RedirectAttributes redirectAttributes){
+										RedirectAttributes redirectAttributes) throws IOException{
 		
 		System.out.println(file.getName());
+		gridFsOperation.store(file.getInputStream(),file.getOriginalFilename());
 		
 		return "{response: 200}";
 	}
