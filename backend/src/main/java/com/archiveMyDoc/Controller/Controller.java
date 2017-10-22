@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.archiveMyDoc.Models.Document;
 import com.archiveMyDoc.Repository.DocumentRepository;
+import com.mongodb.gridfs.GridFSDBFile;
 
 @CrossOrigin(origins="*")
 @RestController
@@ -44,7 +45,7 @@ public class Controller{
 		return "{response: 200}";
 	}
 	
-	@PostMapping(value="/uploadFile")
+	@PostMapping("/uploadFile")
 	public String SaveFile(@RequestParam(value="file", required=true) MultipartFile file,
 										RedirectAttributes redirectAttributes) throws IOException{
 		
@@ -52,5 +53,10 @@ public class Controller{
 		gridFsOperation.store(file.getInputStream(),file.getOriginalFilename());
 		
 		return "{response: 200}";
+	}
+	
+	@GetMapping("/getAllFiles")
+	public String getAllFiles() {
+		return gridFsOperation.find(null).toString();
 	}
 }
