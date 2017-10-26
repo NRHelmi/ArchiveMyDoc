@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import {BrowserRouter, Route} from 'react-router-dom'
+import {getFilesList, getHelloMsg} from '../services/services'
+
 
 class App extends Component{
   render(){
     return(
-    <div>
+    <div className="container-fluid">
         <BrowserRouter>
             <div>
                     <Route path="/"           component={Home}/>
@@ -23,13 +24,19 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/Upload">Upload</a></li>
-          <li><a href="/ListFiles">ListFiles</a></li>
-          <li><a href="/restTest">RestTest</a></li>
-        </ul>
-        <h1> Welcome to ArchiveMyDoc </h1>
+      <nav className="navbar navbar-default">
+        <div className="">
+          <ul className="nar navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/Upload">Upload</a></li>
+            <li><a href="/ListFiles">ListFiles</a></li>
+            <li><a href="/restTest">RestTest</a></li>
+          </ul>
+        </div>
+        </nav>
+        <div>
+          <h1> Welcome to ArchiveMyDoc </h1>
+        </div>
       </div>
     );
   }
@@ -58,13 +65,16 @@ class ListFiles extends Component{
       }
   }
   componentDidMount() {
-    axios.get('http://localhost:8080/getAllFiles')
-    .then(response => {
-      console.log(response)
-      this.setState({ data: response.data })
-    })
-    .catch(err => console.log(err))
+
+   getFilesList().then(response=>{
+    this.setState({ data: response.data })
+   })
+   .catch(error=>{
+     console.log(error)
+   })
+      
   }
+
   render(){
     return(
       <table>
@@ -91,12 +101,14 @@ class RestCall extends Component{
       }
   }
   componentDidMount() {
-    axios.get('http://localhost:8080/')
-    .then(response => {
-      console.log(response)
+
+    getHelloMsg().then(response=>{
       this.setState({ message: response.data })
     })
-    .catch(err => console.log(err))
+    .catch(error=>{
+      console.log(error)
+    })
+      
   }
   render(){
     return(
