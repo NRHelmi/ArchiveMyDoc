@@ -1,4 +1,4 @@
-package com.archiveMyDoc.DAOs;
+package com.archiveMyDoc.Services;
 
 import java.io.IOException;
 
@@ -17,12 +17,12 @@ import com.mongodb.gridfs.GridFSDBFile;
 
 
 @Component
-public class GridFsDAO{
+public class GridFsService{
 	
 	@Autowired
 	private GridFsOperations gridFsOperation;
 	
-	public GridFsDAO() {}
+	public GridFsService() {}
 	
 	public ResponseEntity<String> SaveFile(MultipartFile file) throws IOException{	
 		gridFsOperation.store(file.getInputStream(), file.getOriginalFilename(), file.getContentType());
@@ -43,7 +43,7 @@ public class GridFsDAO{
 				.body( new InputStreamResource(file.getInputStream()));
 	}
 	
-	public ResponseEntity<String> deleteAllFiles(){
+	public ResponseEntity<String> deleteAllFiles() {
 		gridFsOperation.delete(null);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}

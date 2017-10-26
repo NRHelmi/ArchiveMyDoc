@@ -17,20 +17,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.archiveMyDoc.DAOs.DocumentDAO;
-import com.archiveMyDoc.DAOs.GridFsDAO;
+import com.archiveMyDoc.Services.DocumentService;
+import com.archiveMyDoc.Services.GridFsService;
 import com.archiveMyDoc.Models.Document;
 
 
-@CrossOrigin(origins="*")
 @RestController
+@CrossOrigin(origins="*")
 public class Controller{
 	
 	@Autowired
-	private DocumentDAO documentDAO;
+	private DocumentService documentService;
 	
 	@Autowired
-	private GridFsDAO gridFsDAO;
+	private GridFsService gridFsService;
 	
 	
 	@GetMapping("/")
@@ -40,7 +40,7 @@ public class Controller{
 	
 	@GetMapping("/getAllDocuments")
 	public List<Document> getAllDocuments(){
-		return documentDAO.getAllDocuments();
+		return documentService.getAllDocuments();
 	}
 	
 	@PostMapping("/saveDocument")
@@ -53,22 +53,22 @@ public class Controller{
 	@PostMapping("/uploadFile")
 	public ResponseEntity<String> SaveFile(@RequestParam(value="file", required=true) MultipartFile file,
 										RedirectAttributes redirectAttributes) throws IOException{
-		return gridFsDAO.SaveFile(file);
+		return gridFsService.SaveFile(file);
 		
 	}
 	
 	@GetMapping("/getAllFiles")
 	public String getAllFiles() {
-		return gridFsDAO.getAllFiles();
+		return gridFsService.getAllFiles();
 	}
 	
 	@GetMapping("/downloadFile/{fileId}")
 	public  ResponseEntity<InputStreamResource> downloadFile(@PathVariable("fileId")String fileId) throws IOException {
-		return gridFsDAO.downloadFile(fileId);
+		return gridFsService.downloadFile(fileId);
 	}
 	
 	@GetMapping("/deleteAllFiles")
 	public ResponseEntity<String> deleteAllFiles(){
-		return gridFsDAO.deleteAllFiles();
+		return gridFsService.deleteAllFiles();
 	}
 }

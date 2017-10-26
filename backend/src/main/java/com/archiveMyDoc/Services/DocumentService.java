@@ -1,4 +1,4 @@
-package com.archiveMyDoc.DAOs;
+package com.archiveMyDoc.Services;
 
 import java.util.List;
 
@@ -11,12 +11,12 @@ import com.archiveMyDoc.Models.Document;
 import com.archiveMyDoc.Repository.DocumentRepository;
 
 @Component
-public class DocumentDAO{
+public class DocumentService{
 	
 	@Autowired
 	private DocumentRepository documentRepo;
 	
-	public DocumentDAO(){}
+	public DocumentService(){}
 
 	public List<Document> getAllDocuments(){
 		return documentRepo.findAll();
