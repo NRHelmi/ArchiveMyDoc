@@ -1,6 +1,8 @@
 package com.archiveMyDoc.Services;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -24,8 +26,10 @@ public class GridFsService{
 	
 	public GridFsService() {}
 	
-	public ResponseEntity<String> SaveFile(MultipartFile file) throws IOException{	
-		gridFsOperation.store(file.getInputStream(), file.getOriginalFilename(), file.getContentType());
+	public ResponseEntity<String> SaveFile(MultipartFile file, String parent) throws IOException{
+		Map<String, String> metadata = new HashMap<String, String>();
+		metadata.put("parent", parent);
+		gridFsOperation.store(file.getInputStream(), file.getOriginalFilename(), file.getContentType(), metadata);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	

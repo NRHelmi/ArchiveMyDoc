@@ -8,6 +8,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,36 +39,37 @@ public class Controller{
 		return "Hello World !!";
 	}
 	
-	@GetMapping("/getAllDocuments")
+	@GetMapping("/documents")
 	public List<Document> getAllDocuments(){
 		return documentService.getAllDocuments();
 	}
 	
-	@PostMapping("/saveDocument")
+	@PostMapping("/document")
 	public ResponseEntity<String> saveDocument(@RequestBody Document document){
 		
 		System.out.println(document);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
-	@PostMapping("/uploadFile")
+	@PostMapping("/file")
 	public ResponseEntity<String> SaveFile(@RequestParam(value="file", required=true) MultipartFile file,
+											@RequestParam(value="parent", required=true) String parent,
 										RedirectAttributes redirectAttributes) throws IOException{
-		return gridFsService.SaveFile(file);
+		return gridFsService.SaveFile(file, parent);
 		
 	}
 	
-	@GetMapping("/getAllFiles")
+	@GetMapping("/files")
 	public String getAllFiles() {
 		return gridFsService.getAllFiles();
 	}
 	
-	@GetMapping("/downloadFile/{fileId}")
+	@GetMapping("/file/{fileId}")
 	public  ResponseEntity<InputStreamResource> downloadFile(@PathVariable("fileId")String fileId) throws IOException {
 		return gridFsService.downloadFile(fileId);
 	}
 	
-	@GetMapping("/deleteAllFiles")
+	@DeleteMapping("/files")
 	public ResponseEntity<String> deleteAllFiles(){
 		return gridFsService.deleteAllFiles();
 	}
