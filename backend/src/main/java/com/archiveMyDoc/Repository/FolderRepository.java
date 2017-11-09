@@ -11,4 +11,6 @@ public interface FolderRepository extends MongoRepository<Folder, Serializable>{
 	
 	public Folder findById(String id);
 	public List<Folder> findAll();
+	public List<Folder> findByParentId(String parendId);
+	public void deleteById(String folderId);
 }

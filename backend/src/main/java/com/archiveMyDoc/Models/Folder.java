@@ -7,7 +7,7 @@ public class Folder{
 	@Id
 	public String id;
 	public String folderName;
-	public String parentFolderId;
+	public String parentId;
 	
 	public Folder() {}
 	public Folder(String folderName) {
@@ -16,11 +16,11 @@ public class Folder{
 	
 	public Folder(String folderName, String parentFolderId) {
 		this.folderName = folderName;
-		this.parentFolderId = parentFolderId;
+		this.parentId = parentFolderId;
 	}
 	
 	@Override
 	public String toString() {
-		return "{Id: "+id+", folderName: "+folderName+", parentFolderId: "+parentFolderId+"}";
+		return "{Id: "+id+", folderName: "+folderName+", parentFolderId: "+parentId+"}";
 	}
 }

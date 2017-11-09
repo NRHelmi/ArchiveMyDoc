@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import service from '../../service';
 
 class Uploader extends Component{
     constructor(props){
         super(props);
         this.state = {
             file: [],
-            parent: this.props.parent
+            parent: this.props.parentId
         }
-        this.handleFile = this.handleFile.bind(this);
-        this.handleSubmit     = this.handleSubmit.bind(this);
+        this.handleFile   = this.handleFile.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleSubmit(e){
@@ -37,15 +38,18 @@ class Uploader extends Component{
         this.setState({file: content});
 
         console.log("state",this.state);
-        
+        //console.log(service.hello())
     }
 
     render(){
         return(
-            <form onSubmit={this.handleSubmit}>
-                <input type="file" onChange={this.handleFile}/>
-                <input type="submit"/>
-            </form>
+            <div>
+                <h1>File Uploader Component</h1>
+                <form onSubmit={this.handleSubmit}>
+                    <input type="file" onChange={this.handleFile}/>
+                    <input type="submit"/>
+                </form>
+            </div>
         )
     }
 }
