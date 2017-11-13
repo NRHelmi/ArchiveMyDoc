@@ -1,40 +1,42 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import service from '../../service';
+import { connect } from 'react-redux';
+import { setFolders } from '../../actions';
 
-class Folder extends Component{
+class FolderCreator extends Component{
     constructor(props){
         super(props);
         this.state = {
             folderName: '',
-            parentId: this.props.parent
+            parentId: this.props.parentId
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
     handleChange(event){
         this.setState({folderName: event.target.value});
         console.log(this.state);
     }
+
     handleSubmit(event){
-        event.preventDefault();
+        //event.preventDefault();
 
-        let data = new FormData();
-
-        data.append('folderName', this.state.folderName);
-        data.append('parentId', this.state.parentId);
-
-        axios.post("http://localhost:8080/folder", this.state)
-        .then(response=>{
+        service.createFolder(this.state)
+        .then(response =>{
             console.log(response);
+            service.getFolders()
+            .then(res => {this.props.setFolders(res.data)});
+            event.target.value = '';
         })
-        .catch(err=>{
+        .catch(err =>{
             console.log(err);
         })
     }
     render(){
         return(
             <div>
-                <h1>Folder Component</h1>
+                <h1>FolderCreator Component</h1>
                 <form onSubmit={this.handleSubmit}>
                     <label>Folder Name</label>
                     <input type="text" onChange={this.handleChange}/>
@@ -45,4 +47,4 @@ class Folder extends Component{
     }
 }
 
-export default Folder;
+export default connect(null, {setFolders})(FolderCreator);

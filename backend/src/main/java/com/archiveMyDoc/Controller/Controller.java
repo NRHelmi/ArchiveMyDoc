@@ -42,9 +42,9 @@ public class Controller{
 	 */
 	@PostMapping("/file")
 	public ResponseEntity<String> SaveFile(@RequestParam(value="file", required=true) MultipartFile file,
-											@RequestParam(value="parent", required=true) String parent,
+											@RequestParam(value="parentId", required=true) String parentId,
 										RedirectAttributes redirectAttributes) throws IOException{
-		return gridFsService.SaveFile(file, parent);
+		return gridFsService.SaveFile(file, parentId);
 		
 	}
 	
@@ -56,6 +56,16 @@ public class Controller{
 	@GetMapping("/file/{fileId}")
 	public  ResponseEntity<InputStreamResource> downloadFile(@PathVariable("fileId")String fileId) throws IOException {
 		return gridFsService.downloadFile(fileId);
+	}
+	
+	@GetMapping("/file/parent/{parentId}")
+	public String getFileByParentId(@PathVariable("parentId")String parentId) {
+		return gridFsService.getFileByParentId(parentId);
+	}
+	
+	@DeleteMapping("/file/{fileId}")
+	public ResponseEntity<String> deleteFile(@PathVariable("fileId")Object objectId){
+		return gridFsService.deleteFile(objectId);
 	}
 	
 	@DeleteMapping("/files")
@@ -77,7 +87,10 @@ public class Controller{
 	
 	@GetMapping("/folder/parent/{parentId}")
 	public List<Folder> getFolderByParentId(@PathVariable("parentId")String parentId){
-		return folderService.getFolderByParentId(parentId);
+		System.out.println("ParentID => "+parentId);
+		List<Folder> ls = folderService.getFolderByParentId(parentId);
+		System.out.println(ls);
+		return ls;
 	}
 	
 	@PostMapping("/folder")

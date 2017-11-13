@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+
+import { connect } from 'react-redux';
+import { setFiles } from '../../actions';
+
 import service from '../../service';
 
-class Uploader extends Component{
+class FileUploader extends Component{
     constructor(props){
         super(props);
         this.state = {
             file: [],
-            parent: this.props.parentId
+            parentId: this.props.parentId
         }
         this.handleFile   = this.handleFile.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -18,15 +21,18 @@ class Uploader extends Component{
         let data = new FormData();
 
         data.append('file', this.state.file[0]);
-        data.append('parent', this.state.parent);
+        data.append('parentId', this.state.parentId);
 
-        axios.post('http://localhost:8080/file', data)
-        .then(response=>{
-            console.log(response);
+        service.uploadFile(data)
+        .then(res => {
             this.setState({file: []});
+            service.getFiles()
+            .then(res => {
+                this.props.setFiles(res.data);
+            })
         })
-        .catch(error=>{
-            console.log(error);
+        .catch(err => {
+            console.log(err);
         })
     }
 
@@ -54,4 +60,4 @@ class Uploader extends Component{
     }
 }
 
-export default Uploader;
+export default connect(null , { setFiles } )(FileUploader);

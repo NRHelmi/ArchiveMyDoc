@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import Uploader from './Uploader';
-import Folder from './Folder';
+
+import FileUploader from './FileUploader';
+import FolderCreator from './FolderCreator';
+import List from './List';
 
 class App extends Component{
     render(){
         return(
             <div>
                 <h1>Hello</h1>
-                <Uploader parentId={null}/>
-                <Folder parentId={null}/>
+                <FileUploader parentId={'none'}/>
+                <FolderCreator parentId={'none'}/>
+                <List parentId={'none'}/>
             </div>
         )
     }

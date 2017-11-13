@@ -26,9 +26,9 @@ public class GridFsService{
 	
 	public GridFsService() {}
 	
-	public ResponseEntity<String> SaveFile(MultipartFile file, String parent) throws IOException{
+	public ResponseEntity<String> SaveFile(MultipartFile file, String parentId) throws IOException{
 		Map<String, String> metadata = new HashMap<String, String>();
-		metadata.put("parent", parent);
+		metadata.put("parentId", parentId);
 		gridFsOperation.store(file.getInputStream(), file.getOriginalFilename(), file.getContentType(), metadata);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
@@ -49,6 +49,16 @@ public class GridFsService{
 	
 	public ResponseEntity<String> deleteAllFiles() {
 		gridFsOperation.delete(null);
+		return new ResponseEntity<String>(HttpStatus.OK);
+	}
+	
+	public String getFileByParentId(String parentId) {
+		return gridFsOperation.find(new Query(Criteria.where("metadata.parentId").is(parentId))).toString();
+	}
+	
+	public ResponseEntity<String> deleteFile(Object objectId) {
+		gridFsOperation.delete(new Query(Criteria.where("_id").is(objectId)));
+		System.out.println(objectId);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
